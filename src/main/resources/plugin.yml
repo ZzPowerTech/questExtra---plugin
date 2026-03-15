@@ -1,0 +1,5 @@
+name: questsExtras
+version: '1.0-SNAPSHOT'
+main: plugin.questsExtras.QuestsExtras
+api-version: '1.21'
+authors: [ ZzPowerTechzZ ]
