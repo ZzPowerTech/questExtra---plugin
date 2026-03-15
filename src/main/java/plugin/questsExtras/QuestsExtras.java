@@ -4,6 +4,7 @@ import io.github.battlepass.BattlePlugin;
 import net.advancedplugins.bp.impl.actions.ActionRegistry;
 import org.bukkit.plugin.java.JavaPlugin;
 import plugin.questsExtras.quests.DragonBreathCollectQuest;
+import plugin.questsExtras.quests.GroundItemCollectQuest;
 import plugin.questsExtras.quests.MinecartRideQuest;
 
 public final class QuestsExtras extends JavaPlugin {
@@ -22,7 +23,8 @@ public final class QuestsExtras extends JavaPlugin {
 
         actionRegistry.quest(
                 MinecartRideQuest::new,
-                DragonBreathCollectQuest::new
+                DragonBreathCollectQuest::new,
+                GroundItemCollectQuest::new
         );
 
         getLogger().info("questsExtras enabled! Custom quest types registered.");
