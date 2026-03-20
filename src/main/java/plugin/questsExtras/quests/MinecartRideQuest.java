@@ -2,6 +2,7 @@ package plugin.questsExtras.quests;
 
 import net.advancedplugins.bp.impl.actions.containers.ExternalActionContainer;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,7 +35,6 @@ import java.util.UUID;
  */
 public class MinecartRideQuest extends ExternalActionContainer {
 
-    private final Map<UUID, Location> ridingPlayers = new HashMap<>();
     private final Map<UUID, Double> pendingDistance = new HashMap<>();
 
     public MinecartRideQuest(JavaPlugin plugin) {
@@ -49,7 +49,6 @@ public class MinecartRideQuest extends ExternalActionContainer {
         if (!(event.getEntered() instanceof Player player)) return;
         if (!(event.getVehicle() instanceof Minecart)) return;
 
-        ridingPlayers.put(player.getUniqueId(), player.getLocation().clone());
         pendingDistance.putIfAbsent(player.getUniqueId(), 0.0D);
     }
 
@@ -59,37 +58,33 @@ public class MinecartRideQuest extends ExternalActionContainer {
     @EventHandler(ignoreCancelled = true)
     public void onVehicleMove(VehicleMoveEvent event) {
         if (!(event.getVehicle() instanceof Minecart minecart)) return;
-        if (!(minecart.getPassenger() instanceof Player player)) return;
 
-        UUID uuid = player.getUniqueId();
         Location from = event.getFrom();
         Location to = event.getTo();
-
-        if (from.getWorld() == null || to.getWorld() == null || !from.getWorld().equals(to.getWorld())) {
-            ridingPlayers.put(uuid, to.clone());
-            pendingDistance.put(uuid, 0.0D);
+        World fromWorld = from.getWorld();
+        if (!fromWorld.equals(to.getWorld())) {
             return;
         }
 
         double moved = from.distance(to);
         if (moved <= 0.0D) return;
 
-        double total = pendingDistance.getOrDefault(uuid, 0.0D) + moved;
-        int wholeBlocks = (int) Math.floor(total);
+        for (org.bukkit.entity.Entity passenger : minecart.getPassengers()) {
+            if (!(passenger instanceof Player player)) continue;
 
-        if (wholeBlocks > 0) {
-            // Use progressSingle in a loop to mirror BattlePass internal quests behavior.
-            for (int i = 0; i < wholeBlocks; i++) {
+            UUID uuid = player.getUniqueId();
+            double total = pendingDistance.getOrDefault(uuid, 0.0D) + moved;
+            int wholeBlocks = (int) Math.floor(total);
+
+            if (wholeBlocks > 0) {
                 executionBuilder("minecart_ride")
                         .player(player)
-                        .progressSingle()
-                        .canBeAsync()
+                        .progress(wholeBlocks)
                         .buildAndExecute();
             }
-        }
 
-        pendingDistance.put(uuid, total - wholeBlocks);
-        ridingPlayers.put(uuid, to.clone());
+            pendingDistance.put(uuid, total - wholeBlocks);
+        }
     }
 
     /**
@@ -100,14 +95,12 @@ public class MinecartRideQuest extends ExternalActionContainer {
         if (!(event.getExited() instanceof Player player)) return;
         if (!(event.getVehicle() instanceof Minecart)) return;
 
-        ridingPlayers.remove(player.getUniqueId());
         pendingDistance.remove(player.getUniqueId());
     }
 
     @EventHandler
     public void onQuit(org.bukkit.event.player.PlayerQuitEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
-        ridingPlayers.remove(uuid);
         pendingDistance.remove(uuid);
     }
 }
