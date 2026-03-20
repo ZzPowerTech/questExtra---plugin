@@ -1,5 +1,5 @@
 name: questsExtras
-version: '3.1'
+version: '3.3'
 main: plugin.questsExtras.QuestsExtras
 api-version: '1.21'
 authors: [ ZzPowerTechzZ ]
