@@ -14,14 +14,14 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.projectiles.ProjectileSource;
 
-import java.util.UUID;
-
 /**
  * Quest type: questsextras_collect_dragon_breath
  * Counts progress when a player right-clicks with a glass bottle near
  * a dragon breath cloud.
  */
 public class DragonBreathCollectQuest extends ExternalActionContainer {
+
+    private static final double SEARCH_RADIUS = 5.0D;
 
     public DragonBreathCollectQuest(JavaPlugin plugin) {
         super(plugin, "questsextras");
@@ -38,7 +38,7 @@ public class DragonBreathCollectQuest extends ExternalActionContainer {
         if (player.getInventory().getItemInMainHand().getType() != Material.GLASS_BOTTLE) return;
 
         boolean foundDragonBreathCloud = false;
-        for (Entity entity : player.getNearbyEntities(2.0D, 2.0D, 2.0D)) {
+        for (Entity entity : player.getNearbyEntities(SEARCH_RADIUS, SEARCH_RADIUS, SEARCH_RADIUS)) {
             if (!(entity instanceof AreaEffectCloud cloud)) continue;
             if (!isDragonBreathCloud(cloud)) continue;
 
