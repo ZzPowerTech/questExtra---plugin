@@ -14,6 +14,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.projectiles.ProjectileSource;
 
+import java.util.UUID;
+
 /**
  * Quest type: questsextras_collect_dragon_breath
  * Counts progress when a player right-clicks with a glass bottle near
