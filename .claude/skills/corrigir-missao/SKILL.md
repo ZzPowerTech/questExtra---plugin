@@ -1,4 +1,7 @@
-# Corrigir Bug em Missão Existente
+---
+name: corrigir-missao
+description: Investigar e corrigir bug em missão existente do plugin questsExtras com diagnóstico e correção em paralelo. Use quando o usuário reportar um bug em uma missão.
+---
 
 Você foi chamado para corrigir um bug em um tipo de missão do plugin questsExtras.
 
@@ -6,6 +9,8 @@ Você foi chamado para corrigir um bug em um tipo de missão do plugin questsExt
 1. Nome da missão com problema
 2. Comportamento esperado vs comportamento atual
 3. Se há erros no console (compartilhe o stacktrace)
+
+Se algum detalhe estiver faltando, pergunte antes de prosseguir.
 
 ---
 

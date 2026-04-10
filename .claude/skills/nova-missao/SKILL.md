@@ -1,11 +1,16 @@
-# Criar Nova Missão em Paralelo
+---
+name: nova-missao
+description: Criar novo tipo de missão customizada para o plugin questsExtras com implementação e testes em paralelo. Use sempre que o usuário pedir para criar uma nova missão.
+---
 
 Você foi chamado para criar um novo tipo de missão customizada para o plugin questsExtras.
 
 **Solicite ao usuário (se ainda não informado):**
 1. Nome da missão em snake_case (ex: `block_break`, `fish_catch`)
 2. Comportamento: qual evento Bukkit dispara e o que conta como progresso
-3. Se usa `variable` (material específico) ou `none` (qualquer item)
+3. Se usa `variable` (material/entidade específica) ou `none` (qualquer)
+
+Se algum detalhe estiver faltando, pergunte antes de prosseguir.
 
 ---
 

@@ -129,7 +129,7 @@ class GroundItemCollectQuestTest {
     // ─── onGroundItemPickup: itens naturais ────────────────────────────────
 
     @Test
-    @DisplayName("Pickup de item natural DEVE contar progresso completo quando remaining=0")
+    @DisplayName("Pickup de item natural DEVE contar progresso usando stack.getAmount()")
     void pickup_naturalItem_countsFullProgress() {
         UUID itemId = UUID.randomUUID();
 
@@ -145,7 +145,6 @@ class GroundItemCollectQuestTest {
         EntityPickupItemEvent event = mock(EntityPickupItemEvent.class);
         when(event.getEntity()).thenReturn(player);
         when(event.getItem()).thenReturn(groundItem);
-        when(event.getRemaining()).thenReturn(0);
 
         ActionsReader mockReader = mock(ActionsReader.class);
         ActionRegistry mockRegistry = mock(ActionRegistry.class);
@@ -161,8 +160,8 @@ class GroundItemCollectQuestTest {
     }
 
     @Test
-    @DisplayName("collectedAmount deve ser stack.amount - event.remaining")
-    void pickup_collectedAmountRespectesRemainingOnGround() {
+    @DisplayName("collectedAmount usa stack.getAmount() diretamente (sem getRemaining())")
+    void pickup_collectedAmountUsesStackAmount() {
         UUID itemId = UUID.randomUUID();
 
         ItemStack stack = mock(ItemStack.class);
@@ -177,7 +176,6 @@ class GroundItemCollectQuestTest {
         EntityPickupItemEvent event = mock(EntityPickupItemEvent.class);
         when(event.getEntity()).thenReturn(player);
         when(event.getItem()).thenReturn(groundItem);
-        when(event.getRemaining()).thenReturn(3);
 
         ActionsReader mockReader = mock(ActionsReader.class);
         ActionRegistry mockRegistry = mock(ActionRegistry.class);
@@ -188,19 +186,17 @@ class GroundItemCollectQuestTest {
 
             quest.onGroundItemPickup(event);
 
-            // Deve ter chamado onAction com progresso = 10 - 3 = 7
             verify(mockReader, times(1)).onAction(any(ActionExecution.class));
         }
     }
 
     @Test
-    @DisplayName("collectedAmount = 0 (inventário cheio) não deve chamar buildAndExecute")
-    void pickup_zeroCollectedAmount_doesNotCountProgress() {
+    @DisplayName("stack.getAmount() = 0 não deve chamar buildAndExecute")
+    void pickup_zeroStackAmount_doesNotCountProgress() {
         UUID itemId = UUID.randomUUID();
 
-        // Quando inventário está cheio: remaining == amount → collectedAmount = 0 → retorna cedo antes de getType()
         ItemStack stack = mock(ItemStack.class);
-        when(stack.getAmount()).thenReturn(5);
+        when(stack.getAmount()).thenReturn(0);
 
         Item groundItem = mock(Item.class);
         when(groundItem.getUniqueId()).thenReturn(itemId);
@@ -210,7 +206,6 @@ class GroundItemCollectQuestTest {
         EntityPickupItemEvent event = mock(EntityPickupItemEvent.class);
         when(event.getEntity()).thenReturn(player);
         when(event.getItem()).thenReturn(groundItem);
-        when(event.getRemaining()).thenReturn(5);
 
         try (MockedStatic<ActionRegistry> mockedRegistry = mockStatic(ActionRegistry.class)) {
             quest.onGroundItemPickup(event);
@@ -324,7 +319,6 @@ class GroundItemCollectQuestTest {
                 EntityPickupItemEvent event = mock(EntityPickupItemEvent.class);
                 when(event.getEntity()).thenReturn(player);
                 when(event.getItem()).thenReturn(groundItem);
-                when(event.getRemaining()).thenReturn(0);
 
                 quest.onGroundItemPickup(event);
             }

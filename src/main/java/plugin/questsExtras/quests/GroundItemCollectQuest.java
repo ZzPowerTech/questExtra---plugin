@@ -41,7 +41,7 @@ public class GroundItemCollectQuest extends ExternalActionContainer {
         if (playerDroppedItems.remove(itemId)) return;
 
         ItemStack stack = event.getItem().getItemStack();
-        int collectedAmount = stack.getAmount() - event.getRemaining();
+        int collectedAmount = stack.getAmount();
         if (collectedAmount <= 0) return;
 
         executionBuilder("collect_ground_item")

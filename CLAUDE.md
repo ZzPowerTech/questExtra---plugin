@@ -123,3 +123,19 @@ O `plugin.yml` usa o placeholder `${version}` e é preenchido automaticamente no
 
 Use o skill `/nova-missao` para criar implementação + testes com dois subagentes em paralelo.  
 Use o skill `/corrigir-missao` para investigar + corrigir bug de uma missão existente.
+
+### Quando usar `/nova-missao`
+
+Invocar o skill `nova-missao` **sempre** que o usuário pedir para criar uma nova missão — independentemente de como a solicitação for formulada ("cria uma missão de...", "quero uma quest de...", "adiciona um tipo de missão para...", etc.).
+
+**Antes de executar o skill**, verificar se o usuário forneceu todos os detalhes abaixo. Se algum estiver faltando, **perguntar antes de prosseguir**:
+
+| Detalhe | Descrição | Exemplo |
+|---|---|---|
+| **Nome da missão** | Nome descritivo em português | "Matar Zumbis" |
+| **Evento Bukkit** | Qual evento do servidor aciona a missão | `EntityDeathEvent` |
+| **Filtro de variável** | A missão filtra por tipo (item/entidade/bioma)? | `ZOMBIE`, ou "qualquer" |
+| **Critério de progresso** | O que conta como 1 ponto de progresso | "cada zumbi morto" |
+| **Exemplo de config YAML** | `required-progress` e `points` sugeridos | `10` kills, `50` pontos |
+
+Se o usuário fornecer apenas uma descrição vaga (ex: "cria uma missão de matar mobs"), perguntar os detalhes em falta antes de invocar o skill.

@@ -8,6 +8,7 @@ import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import plugin.questsExtras.quests.DragonBreathCollectQuest;
 import plugin.questsExtras.quests.GroundItemCollectQuest;
+import plugin.questsExtras.quests.HaveItemQuest;
 import plugin.questsExtras.quests.MinecartRideQuest;
 
 public final class QuestsExtras extends JavaPlugin {
@@ -36,7 +37,8 @@ public final class QuestsExtras extends JavaPlugin {
         actionRegistry.quest(
                 MinecartRideQuest::new,
                 DragonBreathCollectQuest::new,
-                GroundItemCollectQuest::new
+                GroundItemCollectQuest::new,
+                HaveItemQuest::new
         );
 
         getLogger().info("questsExtras enabled! Custom quest types registered.");
