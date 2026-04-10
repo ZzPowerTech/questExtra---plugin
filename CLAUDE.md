@@ -89,6 +89,28 @@ Cada missão deve ter testes em `src/test/java/.../quests/<Nome>QuestTest.java`.
 
 Rodar: `./gradlew test`
 
+## Versionamento
+
+A versão fica **somente em `build.gradle`** → `version = '3.6'`.  
+O `plugin.yml` usa o placeholder `${version}` e é preenchido automaticamente no build.
+
+### Regra: toda alteração de código sobe a versão
+
+| Tipo de mudança | Parte a incrementar | Exemplo |
+|---|---|---|
+| Nova missão | **minor** (segundo número) | `3.6` → `3.7` |
+| Bugfix em missão existente | **patch** (terceiro número) | `3.6` → `3.6.1` |
+| Mudança de infra/config/testes | não sobe versão | — |
+
+> Versão atual: verificar `version = '...'` em `build.gradle`
+
+**Passos obrigatórios ao alterar código de missão:**
+
+1. Incrementar `version` em `build.gradle`
+2. Fazer as alterações de código
+3. Rodar `./gradlew build`
+4. Commitar **incluindo** o `build.gradle` com a nova versão
+
 ## Padrão de Commits
 
 ```

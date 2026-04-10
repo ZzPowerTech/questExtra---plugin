@@ -33,6 +33,8 @@ Depois crie `src/main/java/plugin/questsExtras/quests/<NomeCamelCase>Quest.java`
 
 Adicione a nova classe ao `actionRegistry.quest(...)` em `QuestsExtras.java`.
 
+**Obrigatório:** incremente o **minor** da versão em `build.gradle` (ex: `3.6` → `3.7`) antes de finalizar.
+
 Ao finalizar, reporte:
 - Tipo completo para o BattlePass: `questsextras_<nome>`
 - Exemplo de config YAML para o servidor

@@ -46,6 +46,8 @@ Você vai corrigir um bug em uma missão do plugin questsExtras com base no diag
 4. Aplique a correção mínima necessária — não refatore código não relacionado ao bug
 5. Atualize ou adicione testes cobrindo o cenário que falhava
 
+**Obrigatório:** incremente o **patch** da versão em `build.gradle` (ex: `3.6` → `3.6.1`) como parte do fix.
+
 Após corrigir, execute `./gradlew test` para confirmar que todos os testes passam.
 
 ---
